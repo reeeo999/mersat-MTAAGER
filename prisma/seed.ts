@@ -126,11 +126,12 @@ async function main() {
 
   // ==================== منافسين ====================
   for (const client of clients) {
+    const clientNiche = client.niche || 'عام';
     await prisma.competitor.createMany({
       data: [
         {
           clientId: client.id,
-          name: `${client.niche} Pro`,
+          name: `${clientNiche} Pro`,
           url: 'https://competitor1.example.com',
           facebookPage: 'competitor1',
           instagramHandle: '@competitor1',
@@ -138,7 +139,7 @@ async function main() {
         },
         {
           clientId: client.id,
-          name: `Global ${client.niche}`,
+          name: `Global ${clientNiche}`,
           url: 'https://competitor2.example.com',
           facebookPage: 'competitor2',
           tiktokHandle: '@competitor2',
@@ -157,7 +158,8 @@ async function main() {
   };
 
   for (const client of clients) {
-    const names = productNames[client.niche] || [];
+    const nicheKey = client.niche || '';
+    const names = productNames[nicheKey] || [];
     for (let i = 0; i < names.length; i++) {
       await prisma.product.create({
         data: {
@@ -168,7 +170,7 @@ async function main() {
           cost: 60 + i * 30,
           currency: 'SAR',
           stock: 50 - i * 5,
-          category: client.niche,
+          category: nicheKey,
           status: 'active',
         },
       });
@@ -178,11 +180,12 @@ async function main() {
   // ==================== حملات ====================
   const campaignStatuses = ['active', 'active', 'active', 'paused', 'completed'];
   for (const client of clients) {
+    const clientNiche = client.niche || 'عام';
     for (let i = 0; i < 3; i++) {
       const campaign = await prisma.campaign.create({
         data: {
           clientId: client.id,
-          name: `حملة ${client.niche} - ${i + 1}`,
+          name: `حملة ${clientNiche} - ${i + 1}`,
           platform: i === 0 ? 'meta' : i === 1 ? 'tiktok' : 'google',
           objective: 'conversion',
           status: campaignStatuses[i],
@@ -204,7 +207,7 @@ async function main() {
             campaignId: campaign.id,
             name: `إعلان ${j + 1} - ${campaign.platform}`,
             format: j === 0 ? 'image' : j === 1 ? 'video' : 'carousel',
-            copy: `اكتشف ${client.niche} بأفضل الأسعار!`,
+            copy: `اكتشف ${clientNiche} بأفضل الأسعار!`,
             cta: 'اطلب الآن',
             status: campaign.status === 'active' ? 'active' : 'paused',
             impressions,
