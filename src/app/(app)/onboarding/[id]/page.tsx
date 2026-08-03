@@ -2,7 +2,7 @@ import TopBar from '@/components/TopBar';
 import { prisma } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import { formatCurrency, formatDate, formatNumber } from '@/lib/utils';
-import { ArrowRight, Mail, Phone, Globe, Calendar, DollarSign, CheckCircle2, AlertCircle, Clock, Package, Megaphone, Users, BarChart3, FileText } from 'lucide-react';
+import { ArrowRight, Mail, Phone, Globe, Calendar, DollarSign, CheckCircle2, AlertCircle, Clock, Package, Megaphone, Users, BarChart3, FileText, Target } from 'lucide-react';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
